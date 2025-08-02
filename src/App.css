@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'BitcountPropDouble';
+  src: url('../BitcountPropDouble_Cursive-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .App {
   text-align: center;
   min-height: 100vh;
@@ -20,9 +27,9 @@
 }
 
 .App-header {
-  padding: 1rem 0.2rem 0.2rem 0.2rem;
+  padding: 1.5rem 0.2rem 0 0.2rem;
   text-align: center;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0;
   position: relative;
 }
 
@@ -58,21 +65,42 @@
   background: rgba(102, 126, 234, 0.2);
 }
 
-.app-logo {
+.text-logo {
+  font-family: 'BitcountPropDouble', sans-serif;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #667eea;
+  margin: 0 auto;
+  padding: 0.2rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  letter-spacing: 2px;
   max-width: 600px;
   width: 100%;
-  height: auto;
-  transition: all 0.3s ease;
+  text-align: center;
+  box-sizing: border-box;
 }
 
-.app-logo:hover {
-  transform: scale(1.02);
-  opacity: 0.8;
+.text-logo:hover {
+  transform: scale(1.05);
+  color: #5a67d8;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Karanlık tema için text logo */
+.App.dark-mode .text-logo {
+  color: #a3bffa;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.App.dark-mode .text-logo:hover {
+  color: #818cf8;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 .App-main {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.2rem;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -99,10 +127,22 @@
   color: #ffffff;
 }
 
+.App.dark-mode .mode-selection,
+.App.dark-mode .upload-step,
+.App.dark-mode .settings-section,
+.App.dark-mode .files-section,
+.App.dark-mode .layout-demo,
+.App.dark-mode .convert-section {
+  background: #3a3a3a;
+  border-color: #4a4a4a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
 /* Karanlık Tema - Başlıklar */
 .App.dark-mode .mode-selection h2,
 .App.dark-mode .upload-step h2,
 .App.dark-mode .settings-section h2,
+.App.dark-mode .files-header h3,
 .App.dark-mode .layout-demo h3 {
   color: #ffffff;
 }
@@ -172,6 +212,15 @@
 
 .App.dark-mode .files-hint {
   color: #999;
+}
+
+.App.dark-mode .clear-all-button {
+  background: #ff4757;
+  color: white;
+}
+
+.App.dark-mode .clear-all-button:hover {
+  background: #ff3742;
 }
 
 .App.dark-mode .mode-hint {
@@ -291,19 +340,24 @@
 /* Mod Seçimi */
 .mode-selection {
   text-align: center;
-  padding: 1rem 0;
-  margin-bottom: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
   transition: all 0.3s ease;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .mode-selection.disabled {
   opacity: 0.8;
 }
 
-.mode-selection h2 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-  font-size: 1.4rem;
+.mode-selection h2,
+.settings-section h2 {
+  margin: 0 0 0.8rem 0;
+  color: #333333;
+  font-size: 1.8rem;
   font-weight: 600;
 }
 
@@ -380,14 +434,19 @@
 /* PDF Yükleme Adımı */
 .upload-step {
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 1.5rem;
   animation: slideIn 0.5s ease-out;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
 }
 
 .upload-step h2 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-  font-size: 1.6rem;
+  margin: 0 0 0.8rem 0;
+  color: #333333;
+  font-size: 1.8rem;
   font-weight: 600;
 }
 
@@ -402,20 +461,25 @@
 /* Ayarlar Bölümü */
 .settings-section {
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
 }
 
-.settings-section h2 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-  font-size: 1.3rem;
-  font-weight: 600;
-}
+
 
 /* Dönüştürme Bölümü */
 .convert-section {
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
 }
 
 
@@ -427,6 +491,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Dosya Listesi */
@@ -525,10 +595,12 @@
   text-align: center;
 }
 
-.files-header h3 {
-  font-size: 1.1rem;
-  color: #333;
-  margin-bottom: 0.3rem;
+.files-header h3,
+.layout-demo h3 {
+  font-size: 1.8rem;
+  color: #333333;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
 }
 
 .files-hint {
@@ -536,6 +608,25 @@
   color: #666;
   margin: 0;
   font-style: italic;
+}
+
+.clear-all-button {
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.clear-all-button:hover {
+  background: #ff3742;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
 }
 
 /* Dosya Ekleme Bölümü */
@@ -564,13 +655,15 @@
 .layout-demo {
   margin-top: 1rem;
   text-align: center;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.layout-demo h3 {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
+
 
 .demo-container {
   display: flex;
@@ -1014,9 +1107,11 @@
 
 /* Responsive Tasarım */
 @media (max-width: 768px) {
-  .app-logo {
-    max-width: 600px;
-    width: 100%;
+  .text-logo {
+    font-size: 4rem;
+    letter-spacing: 1px;
+    max-width: calc(100% - 2rem);
+    margin: 0 1rem;
   }
   
   .App-main {
@@ -1042,8 +1137,10 @@
   
   .mode-selection h2,
   .upload-step h2,
-  .settings-section h2 {
-    font-size: 1.2rem;
+  .settings-section h2,
+  .files-header h3,
+  .layout-demo h3 {
+    font-size: 1.5rem;
   }
   
   .mode-options {
@@ -1110,9 +1207,7 @@
     font-size: 0.8rem;
   }
   
-  .layout-demo h3 {
-    font-size: 0.9rem;
-  }
+
   
   .demo-page {
     transform: scale(0.9);
@@ -1181,8 +1276,10 @@
   
   .mode-selection h2,
   .upload-step h2,
-  .settings-section h2 {
-    font-size: 1.1rem;
+  .settings-section h2,
+  .files-header h3,
+  .layout-demo h3 {
+    font-size: 1.4rem;
   }
   
   .mode-options {
@@ -1210,9 +1307,11 @@
     font-size: 1.2rem;
   }
   
-  .app-logo {
-    max-width: 600px;
-    width: 100%;
+  .text-logo {
+    font-size: 3rem;
+    letter-spacing: 0.5px;
+    max-width: calc(100% - 1rem);
+    margin: 0 0.5rem;
   }
   
   .files-list {
@@ -1255,9 +1354,7 @@
   
 
   
-  .layout-demo h3 {
-    font-size: 0.8rem;
-  }
+
   
   .demo-page {
     transform: scale(0.8);

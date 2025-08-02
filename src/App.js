@@ -570,6 +570,13 @@ function App() {
     setMergeFiles([]);
   };
 
+  const clearAllFiles = () => {
+    setSelectedFiles([]);
+    setMergeFiles([]);
+    setTotalPages(0);
+    setMessage('Tüm dosyalar kaldırıldı.');
+  };
+
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
@@ -584,14 +591,13 @@ function App() {
   return (
     <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
       <header className="App-header">
-        <img 
-          src="/logo.gif" 
-          alt="PDF N-Up Düzenleyici" 
-          className="app-logo"
-          onClick={() => {
-            window.location.reload();
-          }}
-        />
+        <h1 
+          className="text-logo" 
+          onClick={() => window.location.reload()}
+          style={{ cursor: 'pointer' }}
+        >
+          PDF DÜZENLE
+        </h1>
       </header>
 
       <button 
@@ -665,6 +671,15 @@ function App() {
                 <div className="files-header">
                   <h3>Seçilen Dosyalar</h3>
                   <p className="files-hint">Dosyaları sürükleyerek sıralayabilirsiniz</p>
+                  {selectedFiles.length > 0 && (
+                    <button 
+                      onClick={clearAllFiles} 
+                      className="clear-all-button"
+                      title="Tüm dosyaları kaldır"
+                    >
+                      🗑️ Tümünü Temizle
+                    </button>
+                  )}
                 </div>
                 <div className="files-list">
                   {selectedFiles.map((file, index) => (
@@ -753,7 +768,7 @@ function App() {
                         onChange={(e) => handleCombineToOnePageChange(e.target.checked)}
                       />
                       <span className="checkmark"></span>
-                      PDF'i tek sayfada birleştir
+                      PDF'i tek sayfa haline getir
                     </label>
                     
                     {combineToOnePage && (
@@ -861,6 +876,15 @@ function App() {
                 <div className="files-header">
                   <h3>Seçilen Dosyalar</h3>
                   <p className="files-hint">Dosyaları sürükleyerek sıralayabilirsiniz</p>
+                  {mergeFiles.length > 0 && (
+                    <button 
+                      onClick={clearAllFiles} 
+                      className="clear-all-button"
+                      title="Tüm dosyaları kaldır"
+                    >
+                      🗑️ Tümünü Temizle
+                    </button>
+                  )}
                 </div>
                 <div className="files-list">
                   {mergeFiles.map((file, index) => (
