@@ -1,9 +1,4 @@
-@font-face {
-  font-family: 'BitcountPropDouble';
-  src: url('../BitcountPropDouble_Cursive-Light.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 .App {
   text-align: center;
@@ -54,6 +49,38 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
+.language-toggle {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.lang-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #667eea;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.6rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.lang-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.lang-btn.active {
+  background: #667eea;
+  color: white;
+  border-color: #5a67d8;
+}
+
 /* Karanlık Tema - Tema Toggle Butonu */
 .App.dark-mode .theme-toggle {
   background: rgba(42, 42, 42, 0.9);
@@ -65,10 +92,26 @@
   background: rgba(102, 126, 234, 0.2);
 }
 
+.App.dark-mode .lang-btn {
+  background: rgba(42, 42, 42, 0.9);
+  border-color: #667eea;
+  color: #ffffff;
+}
+
+.App.dark-mode .lang-btn:hover {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.App.dark-mode .lang-btn.active {
+  background: #667eea;
+  color: white;
+  border-color: #5a67d8;
+}
+
 .text-logo {
-  font-family: 'BitcountPropDouble', sans-serif;
+  font-family: 'Girassol', cursive;
   font-size: 5rem;
-  font-weight: bold;
+  font-weight: 400;
   color: #667eea;
   margin: 0 auto;
   padding: 0.2rem 0;
@@ -1129,6 +1172,16 @@
     font-size: 1.3rem;
   }
   
+  .language-toggle {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+  
+  .lang-btn {
+    padding: 0.5rem;
+    font-size: 1.1rem;
+  }
+  
   .main-container {
     padding: 1.5rem;
     margin: 0 1rem;
@@ -1305,6 +1358,16 @@
     left: 1rem;
     padding: 0.5rem;
     font-size: 1.2rem;
+  }
+  
+  .language-toggle {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .lang-btn {
+    padding: 0.4rem;
+    font-size: 1rem;
   }
   
   .text-logo {

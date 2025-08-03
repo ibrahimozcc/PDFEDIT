@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
+import { languages, defaultLanguage } from './languages';
 import './App.css';
 
 function App() {
@@ -15,6 +16,10 @@ function App() {
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
+  });
+  const [language, setLanguage] = useState(() => {
+    const saved = localStorage.getItem('language');
+    return saved || defaultLanguage;
   });
   const [previewImage, setPreviewImage] = useState(null);
   const [combineToOnePage, setCombineToOnePage] = useState(false);
@@ -45,7 +50,7 @@ function App() {
     );
     
     if (validFiles.length === 0) {
-      setMessage('Lütfen PDF veya resim dosyası seçin.');
+      setMessage(t.selectPdfOrImage);
       return;
     }
     
@@ -70,7 +75,7 @@ function App() {
     }
     
     setTotalPages(prev => prev + totalPageCount);
-    setMessage(`${validFiles.length} dosya eklendi. Toplam ${totalPageCount} sayfa.`);
+    setMessage(`${validFiles.length} ${t.filesAdded} ${totalPageCount} ${t.pages}`);
     
     // Input'u temizle
     event.target.value = '';
@@ -213,13 +218,13 @@ function App() {
     const pdfFiles = selectedFiles.filter(file => file.type === 'application/pdf');
     
     if (pdfFiles.length === 0) {
-      setMessage('Lütfen en az bir PDF dosyası seçin.');
+      setMessage(t.selectPdfFiles);
       return;
     }
 
     setIsProcessing(true);
     setProgress(0);
-    setMessage(`${pdfFiles.length} PDF dosyası işleniyor...`);
+    setMessage(`${pdfFiles.length} ${t.filesProcessing}`);
 
     try {
       let successCount = 0;
@@ -229,7 +234,7 @@ function App() {
         const file = pdfFiles[i];
         const currentProgress = Math.round(((i + 1) / pdfFiles.length) * 100);
         setProgress(currentProgress);
-        setMessage(`${i + 1}/${pdfFiles.length} dosya işleniyor: ${file.name} (${currentProgress}%)`);
+        setMessage(`${i + 1}/${pdfFiles.length} ${t.fileProcessingProgress} ${file.name} (${currentProgress}%)`);
         
         try {
           const arrayBuffer = await file.arrayBuffer();
@@ -280,13 +285,13 @@ function App() {
       setOutputPages(outputPageCount);
       
       if (errorCount === 0) {
-        setMessage(`${successCount} PDF dosyası başarıyla oluşturuldu ve indirildi! (${totalInputPages} sayfa → ${outputPageCount} sayfa)`);
+        setMessage(`${successCount} ${t.filesSuccessfullyCreated} (${totalInputPages} ${t.pagesConverted} ${outputPageCount} ${t.pagesOutput})`);
       } else {
-        setMessage(`${successCount} dosya başarılı, ${errorCount} dosya hatalı. (${totalInputPages} sayfa → ${outputPageCount} sayfa)`);
+        setMessage(`${successCount} ${t.filesSuccessful} ${errorCount} ${t.filesError} (${totalInputPages} ${t.pagesConverted} ${outputPageCount} ${t.pagesOutput})`);
       }
     } catch (error) {
       console.error('Genel dönüştürme hatası:', error);
-      setMessage('PDF işleme sırasında bir hata oluştu: ' + error.message);
+      setMessage(t.processingError + ' ' + error.message);
     } finally {
       setIsProcessing(false);
       setProgress(0);
@@ -316,7 +321,7 @@ function App() {
     }
     
     setTotalPages(prev => Math.max(0, prev - removedPageCount));
-    setMessage(`Dosya kaldırıldı. ${removedPageCount} sayfa çıkarıldı.`);
+    setMessage(`${t.fileRemoved} ${removedPageCount} ${t.pagesRemoved}`);
   };
 
   const removeMergeFile = async (indexToRemove) => {
@@ -342,7 +347,7 @@ function App() {
     }
     
     setTotalPages(prev => Math.max(0, prev - removedPageCount));
-    setMessage(`Dosya kaldırıldı. ${removedPageCount} sayfa çıkarıldı.`);
+    setMessage(`${t.fileRemoved} ${removedPageCount} ${t.pagesRemoved}`);
   };
 
   // Dosya sıralama fonksiyonları - her iki listeyi de güncelle
@@ -365,13 +370,13 @@ function App() {
 
   const createMergedPDF = async () => {
     if (mergeFiles.length === 0) {
-      setMessage('Lütfen birleştirilecek dosyaları seçin.');
+      setMessage(t.selectFilesToMerge);
       return;
     }
 
     setIsProcessing(true);
     setProgress(0);
-    setMessage('PDF birleştiriliyor...');
+    setMessage(t.filesMerging);
 
     try {
       const newPdfDoc = await PDFDocument.create();
@@ -381,13 +386,13 @@ function App() {
       let maxWidth = 0;
       const fileData = [];
       
-      setMessage('Dosyalar analiz ediliyor...');
+      setMessage(t.analyzingFiles);
       
       for (let i = 0; i < mergeFiles.length; i++) {
         const file = mergeFiles[i];
         const analysisProgress = Math.round(((i + 1) / mergeFiles.length) * 50); // İlk %50 analiz için
         setProgress(analysisProgress);
-        setMessage(`${i + 1}/${mergeFiles.length} dosya analiz ediliyor: ${file.name} (${analysisProgress}%)`);
+        setMessage(`${i + 1}/${mergeFiles.length} ${t.fileAnalysisProgress} ${file.name} (${analysisProgress}%)`);
 
         if (file.type === 'application/pdf') {
           // PDF dosyası analizi
@@ -477,13 +482,13 @@ function App() {
       }
       
       // Şimdi tüm sayfaları aynı genişlikte oluşturalım
-      setMessage('Sayfalar oluşturuluyor...');
+      setMessage(t.creatingPages);
       
       for (let i = 0; i < fileData.length; i++) {
         const data = fileData[i];
         const creationProgress = 50 + Math.round(((i + 1) / fileData.length) * 40); // %50-90 arası oluşturma için
         setProgress(creationProgress);
-        setMessage(`${i + 1}/${fileData.length} sayfa oluşturuluyor... (${creationProgress}%)`);
+        setMessage(`${i + 1}/${fileData.length} ${t.pageCreationProgress} (${creationProgress}%)`);
         
         // Yeni sayfa boyutunu hesapla (genişlik sabit, yükseklik orantılı)
         const aspectRatio = data.originalHeight / data.originalWidth;
@@ -511,7 +516,7 @@ function App() {
       }
 
       setProgress(95);
-      setMessage('PDF kaydediliyor... (95%)');
+      setMessage(`${t.savingPdfProgress} (95%)`);
 
       // PDF'i optimize edilmiş ayarlarla kaydet
       const pdfBytes = await newPdfDoc.save({
@@ -526,10 +531,10 @@ function App() {
       
       setProgress(100);
       setOutputPages(fileData.length);
-      setMessage(`${mergeFiles.length} dosya başarıyla birleştirildi ve indirildi! (${fileData.length} sayfa)`);
+      setMessage(`${mergeFiles.length} ${t.filesSuccessfullyMerged} (${fileData.length} ${t.pagesOutput})`);
     } catch (error) {
       console.error('PDF birleştirme hatası:', error);
-      setMessage('PDF birleştirme sırasında bir hata oluştu: ' + error.message);
+      setMessage(t.mergeError + ' ' + error.message);
     } finally {
       setIsProcessing(false);
       setProgress(0);
@@ -574,7 +579,7 @@ function App() {
     setSelectedFiles([]);
     setMergeFiles([]);
     setTotalPages(0);
-    setMessage('Tüm dosyalar kaldırıldı.');
+    setMessage(t.allFilesRemoved);
   };
 
   const toggleDarkMode = () => {
@@ -582,6 +587,13 @@ function App() {
     setDarkMode(newDarkMode);
     localStorage.setItem('darkMode', JSON.stringify(newDarkMode));
   };
+
+  const changeLanguage = (newLanguage) => {
+    setLanguage(newLanguage);
+    localStorage.setItem('language', newLanguage);
+  };
+
+  const t = languages[language];
 
   // Sayfa düzeni, dosyalar, birleştirme seçeneği veya satır sayısı değiştiğinde önizleme oluştur
   useEffect(() => {
@@ -596,25 +608,42 @@ function App() {
           onClick={() => window.location.reload()}
           style={{ cursor: 'pointer' }}
         >
-          PDF DÜZENLE
+          {t.logo}
         </h1>
       </header>
 
       <button 
         onClick={toggleDarkMode} 
         className="theme-toggle"
-        title={darkMode ? 'Açık temaya geç' : 'Koyu temaya geç'}
+        title={darkMode ? t.lightTheme : t.darkTheme}
       >
         {darkMode ? '☀️' : '🌙'}
       </button>
+
+      <div className="language-toggle">
+        <button 
+          onClick={() => changeLanguage('tr')} 
+          className={`lang-btn ${language === 'tr' ? 'active' : ''}`}
+          title={t.turkish}
+        >
+          🇹🇷
+        </button>
+        <button 
+          onClick={() => changeLanguage('en')} 
+          className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+          title={t.english}
+        >
+          🇺🇸
+        </button>
+      </div>
 
       <main className="App-main">
         <div className="main-container">
           {/* Dosya Yükleme Adımı - İlk Adım */}
           {selectedFiles.length === 0 && mergeFiles.length === 0 && (
             <div className="upload-step">
-              <h2>PDF ve Resim Dosyaları Seçin</h2>
-              <p>İşlemek istediğiniz PDF ve resim dosyalarını yükleyin (birden fazla seçebilirsiniz)</p>
+              <h2>{t.selectFiles}</h2>
+              <p>{t.selectFilesHint}</p>
               <div className="file-input-container">
                 <input
                   type="file"
@@ -630,11 +659,11 @@ function App() {
 
           {/* İşlem Türü Seçimi - Her Zaman Görünür */}
           <div className={`mode-selection ${selectedFiles.length === 0 && mergeFiles.length === 0 ? 'disabled' : ''}`}>
-            <h2>İşlem Türü Seçin</h2>
+            <h2>{t.selectProcessType}</h2>
             <p className="mode-hint">
               {selectedFiles.length === 0 && mergeFiles.length === 0 
-                ? 'Önce dosya seçin, sonra işlem türünü belirleyin' 
-                : 'Dosyalarınızla hangi işlemi yapmak istediğinizi seçin'
+                ? t.selectFilesFirst 
+                : t.processTypeHint
               }
             </p>
             <div className="mode-options">
@@ -646,7 +675,7 @@ function App() {
                   onChange={() => handleMergeModeChange(false)}
                   disabled={selectedFiles.length === 0 && mergeFiles.length === 0}
                 />
-                <span className="mode-label">PDF N-Up (Sayfa Düzeni)</span>
+                <span className="mode-label">{t.nupMode}</span>
               </label>
               <label className={`mode-option ${selectedFiles.length === 0 && mergeFiles.length === 0 ? 'disabled' : ''}`}>
                 <input
@@ -656,7 +685,7 @@ function App() {
                   onChange={() => handleMergeModeChange(true)}
                   disabled={selectedFiles.length === 0 && mergeFiles.length === 0}
                 />
-                <span className="mode-label">PDF Merge (Dosya Birleştirme)</span>
+                <span className="mode-label">{t.mergeMode}</span>
               </label>
             </div>
           </div>
@@ -669,15 +698,15 @@ function App() {
               {/* Dosya Listesi ve Ekleme Butonu */}
               <div className="files-section">
                 <div className="files-header">
-                  <h3>Seçilen Dosyalar</h3>
-                  <p className="files-hint">Dosyaları sürükleyerek sıralayabilirsiniz</p>
+                  <h3>{t.selectedFiles}</h3>
+                  <p className="files-hint">{t.filesHint}</p>
                   {selectedFiles.length > 0 && (
                     <button 
                       onClick={clearAllFiles} 
                       className="clear-all-button"
-                      title="Tüm dosyaları kaldır"
+                      title={t.removeAllFiles}
                     >
-                      🗑️ Tümünü Temizle
+                      {t.clearAll}
                     </button>
                   )}
                 </div>
@@ -706,14 +735,14 @@ function App() {
                         }
                       }}
                     >
-                      <span className="drag-handle" title="Sıralamak için sürükleyin">⋮⋮</span>
+                      <span className="drag-handle" title={t.dragToReorder}>⋮⋮</span>
                       <span className="file-name">{file.name}</span>
-                      <span className="file-type">({file.type.includes('pdf') ? 'PDF' : 'Resim'})</span>
+                      <span className="file-type">({file.type.includes('pdf') ? t.pdf : t.image})</span>
                       <span className="file-size">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
                       <button 
                         onClick={() => removeFile(index)} 
                         className="remove-file-button"
-                        title="Dosyayı kaldır"
+                        title={t.removeFile}
                       >
                         ✕
                       </button>
@@ -727,7 +756,7 @@ function App() {
                     onClick={() => document.getElementById('file-input').click()} 
                     className="add-files-button"
                   >
-                    + Daha Fazla Dosya Ekle
+                    {t.addMoreFiles}
                   </button>
                   <input
                     id="file-input"
@@ -742,20 +771,20 @@ function App() {
 
               {/* Sayfa Düzeni Seçimi */}
               <div className="settings-section">
-                <h2>Sayfa Düzeni Seçin</h2>
+                <h2>{t.selectPageLayout}</h2>
                 <select
                   value={pagesPerSheet}
                   onChange={(e) => setPagesPerSheet(Number(e.target.value))}
                   className="layout-select"
                   disabled={combineToOnePage}
                 >
-                  <option value={1}>1 sayfa/sayfa (Orijinal)</option>
-                  <option value={2}>2 sayfa/sayfa</option>
-                  <option value={4}>4 sayfa/sayfa</option>
-                  <option value={6}>6 sayfa/sayfa</option>
-                  <option value={8}>8 sayfa/sayfa</option>
-                  <option value={9}>9 sayfa/sayfa</option>
-                  <option value={12}>12 sayfa/sayfa</option>
+                  <option value={1}>{t.original}</option>
+                  <option value={2}>{t.twoPages}</option>
+                  <option value={4}>{t.fourPages}</option>
+                  <option value={6}>{t.sixPages}</option>
+                  <option value={8}>{t.eightPages}</option>
+                  <option value={9}>{t.ninePages}</option>
+                  <option value={12}>{t.twelvePages}</option>
                 </select>
                 
                 {/* Tek Sayfada Birleştirme Seçeneği */}
@@ -768,12 +797,12 @@ function App() {
                         onChange={(e) => handleCombineToOnePageChange(e.target.checked)}
                       />
                       <span className="checkmark"></span>
-                      PDF'i tek sayfa haline getir
+                      {t.combineToOnePage}
                     </label>
                     
                     {combineToOnePage && (
                       <div className="pages-per-row-selector">
-                        <label htmlFor="pages-per-row">Satırda kaç sayfa:</label>
+                        <label htmlFor="pages-per-row">{t.pagesPerRow}</label>
                         <select
                           id="pages-per-row"
                           value={pagesPerRow}
@@ -791,7 +820,7 @@ function App() {
                 
                 {/* PDF Önizleme */}
                 <div className="layout-demo">
-                  <h3>PDF Önizleme:</h3>
+                  <h3>{t.pdfPreview}:</h3>
                   <div className="demo-container">
                     {combineToOnePage ? (
                       <div className="combine-demo">
@@ -815,7 +844,7 @@ function App() {
                           ))}
                         </div>
                         <p className="demo-description">
-                          {pagesPerRow} sayfa yan yana, alt satırlara devam edecek şekilde
+                          {pagesPerRow} {t.previewDescription}
                         </p>
                       </div>
                     ) : previewImage ? (
@@ -834,11 +863,11 @@ function App() {
                       </div>
                     ) : selectedFiles.length > 0 ? (
                       <div className="preview-loading">
-                        <p>Önizleme oluşturuluyor...</p>
+                        <p>{t.previewLoading}</p>
                       </div>
                     ) : (
                       <div className="no-preview">
-                        <p>PDF seçin, önizleme burada görünecek</p>
+                        <p>{t.selectPdfForPreview}</p>
                       </div>
                     )}
                   </div>
@@ -852,7 +881,7 @@ function App() {
                   disabled={isProcessing}
                   className="convert-button"
                 >
-                  {isProcessing ? `İşleniyor... ${progress}%` : 'Dönüştür ve İndir'}
+                  {isProcessing ? `${t.processing} ${progress}%` : t.convertAndDownload}
                 </button>
                 {isProcessing && (
                   <div className="progress-bar">
@@ -866,26 +895,26 @@ function App() {
             </>
           )}
 
-          {/* PDF Seçildikten Sonraki Adımlar - Merge Modu */}
-          {mergeMode && mergeFiles.length > 0 && mergeMode !== null && (
-            <>
+                        {/* PDF Seçildikten Sonraki Adımlar - Merge Modu */}
+              {mergeMode && mergeFiles.length > 0 && mergeMode !== null && (
+                <>
 
-              
-              {/* Dosya Listesi ve Ekleme Butonu */}
-              <div className="files-section">
-                <div className="files-header">
-                  <h3>Seçilen Dosyalar</h3>
-                  <p className="files-hint">Dosyaları sürükleyerek sıralayabilirsiniz</p>
-                  {mergeFiles.length > 0 && (
-                    <button 
-                      onClick={clearAllFiles} 
-                      className="clear-all-button"
-                      title="Tüm dosyaları kaldır"
-                    >
-                      🗑️ Tümünü Temizle
-                    </button>
-                  )}
-                </div>
+                  
+                  {/* Dosya Listesi ve Ekleme Butonu */}
+                  <div className="files-section">
+                    <div className="files-header">
+                      <h3>{t.selectedFiles}</h3>
+                      <p className="files-hint">{t.filesHint}</p>
+                      {mergeFiles.length > 0 && (
+                        <button 
+                          onClick={clearAllFiles} 
+                          className="clear-all-button"
+                          title={t.removeAllFiles}
+                        >
+                          {t.clearAll}
+                        </button>
+                      )}
+                    </div>
                 <div className="files-list">
                   {mergeFiles.map((file, index) => (
                     <div 
@@ -911,14 +940,14 @@ function App() {
                         }
                       }}
                     >
-                      <span className="drag-handle" title="Sıralamak için sürükleyin">⋮⋮</span>
+                      <span className="drag-handle" title={t.dragToReorder}>⋮⋮</span>
                       <span className="file-name">{file.name}</span>
-                      <span className="file-type">({file.type.includes('pdf') ? 'PDF' : 'Resim'})</span>
+                      <span className="file-type">({file.type.includes('pdf') ? t.pdf : t.image})</span>
                       <span className="file-size">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
                       <button 
                         onClick={() => removeMergeFile(index)} 
                         className="remove-file-button"
-                        title="Dosyayı kaldır"
+                        title={t.removeFile}
                       >
                         ✕
                       </button>
@@ -932,7 +961,7 @@ function App() {
                     onClick={() => document.getElementById('file-input').click()} 
                     className="add-files-button"
                   >
-                    + Daha Fazla Dosya Ekle
+                    {t.addMoreFiles}
                   </button>
                   <input
                     id="file-input"
@@ -952,7 +981,7 @@ function App() {
                   disabled={isProcessing}
                   className="convert-button"
                 >
-                  {isProcessing ? `Birleştiriliyor... ${progress}%` : 'PDF Oluştur ve İndir'}
+                  {isProcessing ? `${t.merging} ${progress}%` : t.createAndDownload}
                 </button>
                 {isProcessing && (
                   <div className="progress-bar">
@@ -985,7 +1014,7 @@ function App() {
       </div>
 
       <footer className="App-footer">
-        <p>🔒 Tüm işlemler tarayıcınızda gerçekleşir - Dosyalar sunucuya gönderilmez</p>
+        <p>{t.privacyNote}</p>
       </footer>
     </div>
   );
