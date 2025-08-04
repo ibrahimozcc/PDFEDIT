@@ -334,10 +334,7 @@
   color: #cccccc;
 }
 
-/* Karanlık Tema - Alt Logo */
-.App.dark-mode .sub-logo {
-  filter: brightness(1.2);
-}
+
 
 /* Karanlık Tema - Birleştirme Seçeneği */
 .App.dark-mode .combine-option {
@@ -1105,10 +1102,94 @@
   border: 2px solid #f5c6cb;
 }
 
+/* Sosyal Medya Bölümü */
+.social-media-section {
+  text-align: center;
+  padding: 0.5rem;
+  margin: 1.5rem 0 0.2rem 0;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.App.dark-mode .social-media-section {
+  background: #3a3a3a;
+  border-color: #4a4a4a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+}
+
+.social-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.social-link.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  border-color: #dc2743;
+}
+
+.social-link.instagram:hover {
+  background: linear-gradient(45deg, #e6683c 0%, #dc2743 25%, #cc2366 50%, #bc1888 75%, #a01a6b 100%);
+}
+
+.social-link.linkedin {
+  background: #0077b5;
+  border-color: #0077b5;
+}
+
+.social-link.linkedin:hover {
+  background: #005885;
+}
+
+.social-icon {
+  width: 18px;
+  height: 18px;
+  fill: white;
+}
+
+.App.dark-mode .social-link {
+  background: #4a4a4a;
+  border-color: #5a5a5a;
+}
+
+.App.dark-mode .social-link.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  border-color: #dc2743;
+}
+
+.App.dark-mode .social-link.linkedin {
+  background: #0077b5;
+  border-color: #0077b5;
+}
+
 .App-footer {
   background-color: rgba(0, 0, 0, 0.1);
   padding: 1rem;
-  color: white;
+  color: #333333;
   backdrop-filter: blur(10px);
 }
 
@@ -1118,24 +1199,12 @@
   opacity: 0.8;
 }
 
-/* Alt Logo */
-.sub-logo-container {
-  text-align: right;
-  margin-top: 1rem;
-  padding: 0.5rem;
-  padding-right: 2rem;
+.App.dark-mode .App-footer {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
-.sub-logo {
-  max-width: 450px;
-  width: 75%;
-  height: auto;
-  transition: transform 0.3s ease;
-}
 
-.sub-logo:hover {
-  transform: scale(1.05);
-}
 
 @keyframes slideIn {
   from {
@@ -1280,10 +1349,7 @@
     font-size: 0.8rem;
   }
   
-  .sub-logo {
-    max-width: 375px;
-    width: 75%;
-  }
+
   
   .combine-row {
     flex-direction: column;
@@ -1437,10 +1503,7 @@
     font-size: 0.75rem;
   }
   
-  .sub-logo {
-    max-width: 300px;
-    width: 75%;
-  }
+
   
   .combine-row {
     flex-direction: column;
@@ -1475,6 +1538,46 @@
   .progress-bar {
     height: 3px;
     margin-top: 0.2rem;
+  }
+
+  .social-media-section {
+    padding: 0.3rem;
+    margin: 1rem 0 0.1rem 0;
+    max-width: 200px;
+  }
+
+  .social-links {
+    gap: 0.6rem;
+  }
+
+  .social-link {
+    width: 28px;
+    height: 28px;
+  }
+
+  .social-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .social-media-section {
+    padding: 0.4rem;
+    margin: 1.2rem 0 0.15rem 0;
+    max-width: 250px;
+  }
+
+  .social-links {
+    gap: 0.8rem;
+  }
+
+  .social-link {
+    width: 32px;
+    height: 32px;
+  }
+
+  .social-icon {
+    width: 16px;
+    height: 16px;
   }
   
 
