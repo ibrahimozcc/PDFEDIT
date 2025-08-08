@@ -4,7 +4,7 @@ export const en = {
   
   // Main headers
   selectProcessType: "Select Process Type",
-  selectFiles: "Select PDF and Image Files",
+  selectFiles: "Upload Files",
   selectedFiles: "Selected Files",
   selectPageLayout: "Select Page Layout",
   pdfPreview: "PDF Preview",
@@ -18,6 +18,9 @@ export const en = {
   // Process types
   nupMode: "PDF N-Up (Page Layout)",
   mergeMode: "PDF Merge (File Merge)",
+  mergeButton: "Merge",
+  nupButton: "N-up",
+  combineButton: "Single Page",
   
   // Buttons
   addMoreFiles: "+ Add More Files",
@@ -49,6 +52,7 @@ export const en = {
   filesAdded: "files added. Total",
   pages: "pages.",
   fileRemoved: "File removed.",
+  fileRemovedMessage: "removed",
   pagesRemoved: "pages removed.",
   allFilesRemoved: "All files removed.",
   selectPdfFiles: "Please select at least one PDF file.",
@@ -90,5 +94,30 @@ export const en = {
   // Language
   language: "Language",
   turkish: "Turkish",
-  english: "English"
+  english: "English",
+  
+  // Additional missing translations
+  addFile: "Add File",
+  singlePageSettings: "Single Page Settings",
+  preview: "Preview",
+  pagesPerRowText: "pages per row",
+  createSinglePageAndDownload: "Create Single Page and Download",
+  developer: "Developer",
+  developerName: "İbrahim Özçelik",
+  
+  // Notification messages
+  fileAdded: "File Added",
+  error: "Error",
+  
+  // Page layout
+  pageLayout: "Page Layout",
+  
+  // Error messages
+  invalidPageLayout: "Invalid page layout",
+  
+  // File selection
+  pdfAndImage: "PDF and Image",
+  
+  // Explanations
+  multipleFilesNote: "When multiple files are uploaded, they will all be downloaded separately"
 }; 

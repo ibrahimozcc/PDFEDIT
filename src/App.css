@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   background: 
-    linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+    linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)),
     url('./eczacilik-fak.png') repeat;
   background-size: 200px 200px;
   transition: all 0.3s ease;
@@ -59,26 +59,34 @@
 }
 
 .lang-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #667eea;
-  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #e5e7eb;
+  font-size: 1.1rem;
   cursor: pointer;
-  padding: 0.6rem;
-  border-radius: 50%;
+  padding: 0.7rem;
+  border-radius: 12px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
 }
 
 .lang-btn:hover {
   background: rgba(102, 126, 234, 0.1);
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
 }
 
 .lang-btn.active {
   background: #667eea;
   color: white;
   border-color: #5a67d8;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 /* Karanlık Tema - Tema Toggle Butonu */
@@ -93,52 +101,92 @@
 }
 
 .App.dark-mode .lang-btn {
-  background: rgba(42, 42, 42, 0.9);
-  border-color: #667eea;
+  background: rgba(42, 42, 42, 0.95);
+  border-color: #4a4a4a;
   color: #ffffff;
 }
 
 .App.dark-mode .lang-btn:hover {
   background: rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
 }
 
 .App.dark-mode .lang-btn.active {
   background: #667eea;
   color: white;
   border-color: #5a67d8;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.text-logo {
-  font-family: 'Girassol', cursive;
-  font-size: 5rem;
-  font-weight: 400;
-  color: #667eea;
-  margin: 0 auto;
-  padding: 0.2rem 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  letter-spacing: 2px;
-  max-width: 600px;
+/* Logo konteyneri */
+.logo-container {
+  position: relative;
+  padding: 0 40px;
+  cursor: pointer;
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Ana logo metni */
+.logo-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 3.5vw;
+  font-weight: 900;
+  color: #555555;
+  letter-spacing: 3px;
+  cursor: default;
+  user-select: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
   text-align: center;
-  box-sizing: border-box;
+  -webkit-text-stroke: 0.5px #000000;
+  text-stroke: 1px #555555;
+  width: 100%;
 }
 
-.text-logo:hover {
-  transform: scale(1.05);
-  color: #5a67d8;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+/* Harflerin stil mantığı */
+.logo-text span {
+  display: inline-block;
+  opacity: 0.2;
+  transition: opacity 0.4s ease-out;
 }
 
-/* Karanlık tema için text logo */
-.App.dark-mode .text-logo {
-  color: #a3bffa;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+/* Tarayıcı ışığı */
+.scanner-light {
+  position: absolute;
+  width: 3px;
+  height: 70%;
+  top: 15%;
+  left: 0px;
+  background-color: #007aff;
+  border-radius: 1px;
+  box-shadow: 
+    0 0 5px rgba(0, 122, 255, 1),
+    0 0 15px rgba(0, 122, 255, 0.8),
+    0 0 25px rgba(0, 122, 255, 0.6);
+  transform: scaleY(0);
+  transform-origin: center;
 }
 
-.App.dark-mode .text-logo:hover {
-  color: #818cf8;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+/* Karanlık tema için logo */
+.App.dark-mode .logo-text {
+  color: #e0e0e0;
+  -webkit-text-stroke: 1px #ffffff;
+  text-stroke: 1px #ffffff;
+}
+
+/* Mobil cihazlar için font boyutunu ayarlama */
+@media (max-width: 768px) {
+  .logo-text {
+    font-size: 5vw;
+  }
+  .logo-container {
+    padding: 0 15px;
+  }
 }
 
 .App-main {
@@ -150,7 +198,7 @@
 }
 
 .main-container {
-  background: white;
+  background: #ededed;
   border-radius: 20px;
   padding: 0.8rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
@@ -399,6 +447,8 @@
   color: #333333;
   font-size: 1.8rem;
   font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.3px;
 }
 
 .mode-hint {
@@ -464,6 +514,8 @@
   font-size: 0.9rem;
   font-weight: 500;
   color: #495057;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .mode-option input[type="radio"]:checked + .mode-label {
@@ -488,12 +540,16 @@
   color: #333333;
   font-size: 1.8rem;
   font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.3px;
 }
 
 .upload-step p {
   margin: 0 0 1rem 0;
   color: #666;
   font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 
@@ -537,6 +593,89 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+/* Kutucuklarda sadece kalın başlık göster, açıklamayı gizle */
+.text-gray-500.font-medium {
+  display: none;
+}
+
+/* Karanlık Tema - Eksik Stiller */
+.App.dark-mode .bg-white {
+  background-color: #3a3a3a !important;
+  color: #ffffff;
+}
+
+.App.dark-mode .text-gray-900 {
+  color: #ffffff !important;
+}
+
+.App.dark-mode .text-gray-600 {
+  color: #cccccc !important;
+}
+
+.App.dark-mode .text-gray-500 {
+  color: #999999 !important;
+}
+
+.App.dark-mode .text-gray-400 {
+  color: #888888 !important;
+}
+
+.App.dark-mode .border-gray-200 {
+  border-color: #4a4a4a !important;
+}
+
+.App.dark-mode .border-gray-300 {
+  border-color: #5a5a5a !important;
+}
+
+.App.dark-mode .bg-gray-50 {
+  background-color: #3a3a3a !important;
+}
+
+.App.dark-mode .bg-gray-100 {
+  background-color: #4a4a4a !important;
+}
+
+.App.dark-mode .hover\:bg-gray-50:hover {
+  background-color: #4a4a4a !important;
+}
+
+.App.dark-mode .hover\:bg-gray-100:hover {
+  background-color: #5a5a5a !important;
+}
+
+.App.dark-mode .border-gray-100 {
+  border-color: #4a4a4a !important;
+}
+
+.App.dark-mode .text-red-500 {
+  color: #ff6b6b !important;
+}
+
+.App.dark-mode .border-red-300 {
+  border-color: #ff6b6b !important;
+}
+
+.App.dark-mode .hover\:bg-red-50:hover {
+  background-color: rgba(255, 107, 107, 0.1) !important;
+}
+
+.App.dark-mode .text-purple-900 {
+  color: #e0e7ff !important;
+}
+
+.App.dark-mode .bg-purple-50 {
+  background-color: rgba(102, 126, 234, 0.1) !important;
+}
+
+.App.dark-mode .border-purple-500 {
+  border-color: #667eea !important;
+}
+
+.App.dark-mode .text-purple-600 {
+  color: #667eea !important;
 }
 
 /* Dosya Listesi */
@@ -595,6 +734,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .file-size {
@@ -641,6 +782,8 @@
   color: #333333;
   margin-bottom: 0.8rem;
   font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.3px;
 }
 
 .files-hint {
@@ -661,6 +804,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .clear-all-button:hover {
@@ -684,6 +829,8 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .add-files-button:hover {
@@ -845,7 +992,7 @@
   border: 3px dashed #667eea;
   border-radius: 12px;
   background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
   color: #667eea;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -869,6 +1016,8 @@
   display: block;
   font-size: 1.1rem;
   font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .file-input-container:hover {
@@ -897,6 +1046,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .layout-select:focus {
@@ -928,6 +1079,8 @@
   font-size: 0.9rem;
   color: #495057;
   user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .combine-checkbox input[type="checkbox"] {
@@ -1046,7 +1199,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .convert-button:hover:not(:disabled) {
@@ -1088,6 +1242,8 @@
   font-weight: 500;
   font-size: 1rem;
   animation: slideIn 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .message.success {
@@ -1197,6 +1353,8 @@
   margin: 0;
   font-size: 0.9rem;
   opacity: 0.8;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.1px;
 }
 
 .App.dark-mode .App-footer {
@@ -1219,11 +1377,11 @@
 
 /* Responsive Tasarım */
 @media (max-width: 768px) {
-  .text-logo {
-    font-size: 4rem;
-    letter-spacing: 1px;
-    max-width: calc(100% - 2rem);
-    margin: 0 1rem;
+  .logo-text {
+    font-size: 10vw;
+  }
+  .logo-container {
+    padding: 0 20px;
   }
   
   .App-main {
@@ -1436,11 +1594,11 @@
     font-size: 1rem;
   }
   
-  .text-logo {
-    font-size: 3rem;
-    letter-spacing: 0.5px;
-    max-width: calc(100% - 1rem);
-    margin: 0 0.5rem;
+  .logo-text {
+    font-size: 6vw;
+  }
+  .logo-container {
+    padding: 0 8px;
   }
   
   .files-list {
@@ -1581,4 +1739,41 @@
   }
   
 
+} 
+
+/* Bildirim Animasyonları */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.35s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.35s ease-out forwards;
+}
+
+/* Backdrop blur için */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 } 

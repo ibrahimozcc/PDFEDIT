@@ -4,7 +4,7 @@ export const tr = {
   
   // Ana başlıklar
   selectProcessType: "İşlem Türü Seçin",
-  selectFiles: "PDF ve Resim Dosyaları Seçin",
+  selectFiles: "Dosya Yükle",
   selectedFiles: "Seçilen Dosyalar",
   selectPageLayout: "Sayfa Düzeni Seçin",
   pdfPreview: "PDF Önizleme",
@@ -18,10 +18,13 @@ export const tr = {
   // İşlem türleri
   nupMode: "PDF N-Up (Sayfa Düzeni)",
   mergeMode: "PDF Merge (Dosya Birleştirme)",
+  mergeButton: "Birleştir",
+  nupButton: "N-up",
+  combineButton: "Tek Sayfa",
   
   // Butonlar
   addMoreFiles: "+ Daha Fazla Dosya Ekle",
-  clearAll: "🗑️ Tümünü Temizle",
+  clearAll: "Tümünü Sil",
   convertAndDownload: "Dönüştür ve İndir",
   createAndDownload: "PDF Oluştur ve İndir",
   processing: "İşleniyor...",
@@ -90,5 +93,34 @@ export const tr = {
   // Dil
   language: "Dil",
   turkish: "Türkçe",
-  english: "İngilizce"
+  english: "İngilizce",
+  
+  // Açıklamalar
+  multipleFilesNote: "Birden fazla dosya yüklenmesi durumunda hepsi ayrı ayrı indirilecektir",
+  
+  // Tek sayfa ayarları
+  singlePageSettings: "Tek Sayfa Ayarları",
+  pagesPerRowText: "sayfa satır başına",
+  createSinglePageAndDownload: "Tek Sayfa Oluştur ve İndir",
+  
+  // Sayfa düzeni
+  pageLayout: "Sayfa Düzeni",
+  
+  // Önizleme
+  preview: "Önizleme",
+  
+  // Hata mesajları
+  invalidPageLayout: "Geçersiz sayfa düzeni",
+  
+  // Dosya seçimi
+  pdfAndImage: "PDF ve Resim",
+  addFile: "Dosya Ekle",
+  
+  // Bildirim mesajları
+  fileAdded: "Dosya Eklendi",
+  error: "Hata",
+  
+  // Geliştirici
+  developer: "Geliştirici",
+  developerName: "İbrahim Özçelik"
 }; 
