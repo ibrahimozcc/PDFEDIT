@@ -5,19 +5,16 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: 
-    linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)),
-    url('./eczacilik-fak.png') repeat;
-  background-size: 200px 200px;
+  background: transparent;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
 }
 
 /* Karanlık Tema */
 .App.dark-mode {
-  background: 
-    linear-gradient(rgba(30, 30, 30, 0.9), rgba(30, 30, 30, 0.9)),
-    url('./eczacilik-fak.png') repeat;
-  background-size: 200px 200px;
+  background: transparent;
   color: #ffffff;
 }
 
@@ -127,65 +124,69 @@
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
 }
 
-/* Ana logo metni */
-.logo-text {
-  font-family: 'Orbitron', monospace;
-  font-size: 3.5vw;
-  font-weight: 900;
-  color: #555555;
-  letter-spacing: 3px;
-  cursor: default;
-  user-select: none;
-  text-transform: uppercase;
-  white-space: nowrap;
+/* Cinematic logo metni ve ışık efekti */
+.light-logo {
+  font-size: 5.5rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 1px;
+  color: transparent;
   margin: 0;
   padding: 0;
   text-align: center;
-  -webkit-text-stroke: 0.5px #000000;
-  text-stroke: 1px #555555;
-  width: 100%;
+  user-select: none;
+  white-space: nowrap;
+  
+  /* Metnin arkasından geçen ışık efekti için gradyan - açık tema için */
+  background: linear-gradient(100deg, #cccccc 35%, #ffffff 50%, #cccccc 65%);
+  background-size: 200% 100%;
+  
+  /* Metni maske olarak kullanma */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* Animasyon */
+  animation: light-scan 7s ease-in-out infinite;
 }
 
-/* Harflerin stil mantığı */
-.logo-text span {
-  display: inline-block;
-  opacity: 0.2;
-  transition: opacity 0.4s ease-out;
-}
-
-/* Tarayıcı ışığı */
-.scanner-light {
-  position: absolute;
-  width: 3px;
-  height: 70%;
-  top: 15%;
-  left: 0px;
-  background-color: #007aff;
-  border-radius: 1px;
-  box-shadow: 
-    0 0 5px rgba(0, 122, 255, 1),
-    0 0 15px rgba(0, 122, 255, 0.8),
-    0 0 25px rgba(0, 122, 255, 0.6);
-  transform: scaleY(0);
-  transform-origin: center;
+/* Işık tarama animasyonu */
+@keyframes light-scan {
+  0% {
+    /* Başlangıç pozisyonu (ışık sağda, görünmez) */
+    background-position: 150% 0;
+  }
+  50% {
+    /* Bitiş pozisyonu (ışık solda, görünmez) */
+    background-position: -50% 0;
+  }
+  100% {
+    /* Başlangıç pozisyonuna geri dön */
+    background-position: 150% 0;
+  }
 }
 
 /* Karanlık tema için logo */
-.App.dark-mode .logo-text {
-  color: #e0e0e0;
-  -webkit-text-stroke: 1px #ffffff;
-  text-stroke: 1px #ffffff;
+.App.dark-mode .light-logo {
+  background: linear-gradient(100deg, #1a1a1a 35%, #ffffff 50%, #1a1a1a 65%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 /* Mobil cihazlar için font boyutunu ayarlama */
 @media (max-width: 768px) {
-  .logo-text {
-    font-size: 5vw;
+  .light-logo {
+    font-size: 4rem;
   }
   .logo-container {
     padding: 0 15px;
+    min-height: 80px;
   }
 }
 
@@ -195,10 +196,12 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  min-height: 0;
 }
 
 .main-container {
-  background: #ededed;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 0.8rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
@@ -209,13 +212,17 @@
   flex-direction: column;
   gap: 0.8rem;
   transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: visible;
 }
 
 /* Karanlık Tema - Ana Container */
 .App.dark-mode .main-container {
-  background: #2a2a2a;
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(10px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .App.dark-mode .mode-selection,
@@ -1377,11 +1384,12 @@
 
 /* Responsive Tasarım */
 @media (max-width: 768px) {
-  .logo-text {
-    font-size: 10vw;
+  .light-logo {
+    font-size: 3.5rem;
   }
   .logo-container {
     padding: 0 20px;
+    min-height: 70px;
   }
   
   .App-main {
@@ -1594,11 +1602,12 @@
     font-size: 1rem;
   }
   
-  .logo-text {
-    font-size: 6vw;
+  .light-logo {
+    font-size: 2.5rem;
   }
   .logo-container {
     padding: 0 8px;
+    min-height: 60px;
   }
   
   .files-list {

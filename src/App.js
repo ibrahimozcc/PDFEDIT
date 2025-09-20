@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import { languages, defaultLanguage } from './languages';
@@ -14,7 +14,14 @@ function App() {
   const [totalPages, setTotalPages] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : false;
+    const isDark = saved ? JSON.parse(saved) : false;
+    
+    // Sayfa yüklendiğinde body elementine dark-mode class'ını uygula
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+    }
+    
+    return isDark;
   });
   const [language, setLanguage] = useState(() => {
     const saved = localStorage.getItem('language');
@@ -613,7 +620,7 @@ function App() {
     }
   };
 
-  const generatePreview = async () => {
+  const generatePreview = useCallback(async () => {
     if (selectedFiles.length === 0) {
       return;
     }
@@ -627,7 +634,7 @@ function App() {
     } catch (error) {
       console.error('Önizleme oluşturma hatası:', error);
     }
-  };
+  }, [selectedFiles, pagesPerSheet]);
 
 
 
@@ -650,6 +657,14 @@ function App() {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
     localStorage.setItem('darkMode', JSON.stringify(newDarkMode));
+    
+    // Body elementine dark-mode class'ını ekle/çıkar
+    document.body.classList.toggle('dark-mode', newDarkMode);
+    
+    // 3D parçacıkların rengini tema değişikliğine göre güncelle
+    if (window.updateParticleColor) {
+      window.updateParticleColor(newDarkMode);
+    }
   };
 
   const changeLanguage = (newLanguage) => {
@@ -662,109 +677,15 @@ function App() {
   // Sayfa düzeni, dosyalar veya satır sayısı değiştiğinde önizleme oluştur
   useEffect(() => {
     generatePreview();
-  }, [pagesPerSheet, selectedFiles, pagesPerRow, generatePreview]);
+  }, [generatePreview]);
 
-  // Logo animasyonu
-  useEffect(() => {
-    const logoContainer = document.getElementById('logoContainer');
-    const logoTextElement = document.getElementById('logoText');
-    const scannerLight = document.getElementById('scannerLight');
-    
-    if (!logoContainer || !logoTextElement || !scannerLight) return;
-    
-    const text = logoTextElement.innerText;
-    logoTextElement.innerHTML = '';
-    text.split('').forEach(char => {
-      const span = document.createElement('span');
-      span.innerHTML = char === ' ' ? '&nbsp;' : char;
-      logoTextElement.appendChild(span);
-    });
 
-    const letterSpans = logoTextElement.querySelectorAll('span');
-    let containerRect;
-    let letterPositions = [];
-
-    function calculatePositions() {
-      containerRect = logoContainer.getBoundingClientRect();
-      letterPositions = Array.from(letterSpans).map(span => {
-        const rect = span.getBoundingClientRect();
-        return {
-          element: span,
-          start: rect.left - containerRect.left
-        };
-      });
-    }
-
-    window.addEventListener('resize', calculatePositions);
-    calculatePositions();
-
-    // Aydınlatma animasyon mantığı
-    function animateScanner() {
-      const growTime = 400;
-      const scanTime = 2500;
-      const pauseAtEndTime = 300;
-      const shrinkTime = 400;
-      const pauseLoopTime = 1000;
-
-      scannerLight.style.transition = `transform ${growTime}ms ease-out, left 0s`;
-      scannerLight.style.transform = 'scaleY(1)';
-
-      let checkInterval;
-
-      setTimeout(() => {
-        scannerLight.style.transition = `left ${scanTime}ms linear, transform 0s`;
-        scannerLight.style.left = `${containerRect.width - scannerLight.offsetWidth - 5}px`;
-
-        checkInterval = setInterval(() => {
-          const scannerRect = scannerLight.getBoundingClientRect();
-          const scannerPos = scannerRect.left - containerRect.left;
-
-          // Tarayıcının pozisyonuna göre harflerin opaklığını ayarla
-          letterPositions.forEach(letter => {
-            if (letter.start < scannerPos) {
-              letter.element.style.opacity = 1; // Tarayıcının solundaysa tam opak yap
-            } else {
-              letter.element.style.opacity = 0.2; // Sağındaysa %20 opak yap
-            }
-          });
-        }, 10);
-      }, growTime);
-
-      setTimeout(() => {
-        clearInterval(checkInterval);
-        // Animasyon sonunda tüm harflerin tam opak olmasını sağla
-        letterSpans.forEach(span => span.style.opacity = 1);
-        
-        scannerLight.style.transition = `transform ${shrinkTime}ms ease-in, left 0s`;
-        scannerLight.style.transform = 'scaleY(0)';
-      }, growTime + scanTime + pauseAtEndTime);
-
-      setTimeout(() => {
-        scannerLight.style.transition = 'none';
-        scannerLight.style.left = '0px';
-        scannerLight.style.transform = 'scaleY(0)';
-        
-        // Yeni döngü için tüm harfleri başlangıç durumuna getir
-        letterSpans.forEach(span => span.style.opacity = 0.2);
-        
-        setTimeout(animateScanner, 50);
-      }, growTime + scanTime + pauseAtEndTime + shrinkTime + pauseLoopTime);
-    }
-
-    setTimeout(animateScanner, 500);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', calculatePositions);
-    };
-  }, []);
 
   return (
     <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
       <header className="App-header">
         <div className="logo-container" id="logoContainer" onClick={() => window.location.reload()}>
-                          <h1 className="logo-text" id="logoText">PDF DÜZENLE</h1>
-          <div className="scanner-light" id="scannerLight"></div>
+          <h1 className="light-logo">pdfedit</h1>
         </div>
       </header>
 
